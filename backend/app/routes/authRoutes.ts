@@ -41,13 +41,8 @@ router.post("/register", async (req, res) => {
 			msg: "Ups. Something went wrong. Please try again later.🐶",
 		});
 	}
-	const token = jwt.sign(
-		{ id: newUser._id },
-		process.env.JWT_SECRET as string,
-		{
-			expiresIn: "1h",
-		}
-	);
+	// Check if fields are empty
+	const token = signToken(newUser._id.toString(), newUser.username);
 
 	res.status(200).json({
 		token: "Bearer " + token,
@@ -91,18 +86,18 @@ router.post("/login", async (req, res) => {
 			msg: "Ups. Something went wrong. Please try again later.",
 		});
 	}
-	const token = jwt.sign(
-		{ id: userDoc._id },
-		process.env.JWT_SECRET as string,
-		{
-			expiresIn: "1h",
-		}
-	);
+	const token = signToken(userDoc._id.toString(), userDoc.username);
 
 	res.status(200).json({
 		token: "Bearer " + token,
 		msg: "Login successful",
 	});
 });
+
+const signToken = (id: string, username: string) => {
+	return jwt.sign({ id, username }, process.env.JWT_SECRET as string, {
+		expiresIn: "1h",
+	});
+};
 
 export default router;
