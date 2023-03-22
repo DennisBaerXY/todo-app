@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes";
+import todoRoutes from "./routes/todoRoutes";
 dotenv.config();
 
 const app: Express = express();
@@ -18,6 +19,7 @@ db.once("open", function () {
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+app.use("/todos", todoRoutes);
 app.get("/", (req: Request, res: Response) => {
 	res.send("Hello World");
 });
