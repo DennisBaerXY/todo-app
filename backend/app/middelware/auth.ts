@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User";
 import { Request, Response, NextFunction } from "express";
 
 const checkAuth = (req: Request, res: Response, next: NextFunction) => {
@@ -11,7 +12,7 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-		req.body.user = decoded;
+		req.user = decoded as User;
 		next();
 	} catch (error) {
 		res.status(400).json({
