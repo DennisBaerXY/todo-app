@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import TodoContext from "./Context/todoContext";
+import TodoContext from "./features/todos/todoContext";
 import { AuthProvider, RequireAuth } from "react-auth-kit";
 
 import {
@@ -11,14 +11,13 @@ import {
 	createBrowserRouter,
 	RouterProvider,
 } from "react-router-dom";
-import Dashboard from "./Components/Dashboard";
-import SignUp from "./Components/SignUp";
-import Login from "./Components/Login";
-import ErorrPage from "./Components/ErrorPage";
+import Dashboard from "./pages/Dashboard";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import ErorrPage from "./pages/ErrorPage";
+import CreateTodo from "./pages/CreateTodo";
 
 function App() {
-	const [count, setCount] = useState(0);
-
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -36,7 +35,12 @@ function App() {
 			path: "/signup",
 			element: <SignUp />,
 		},
+		{
+			path: "/create",
+			element: <CreateTodo />,
+		},
 	]);
+
 	return (
 		<div className="app">
 			<AuthProvider

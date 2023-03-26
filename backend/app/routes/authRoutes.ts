@@ -1,13 +1,23 @@
 import express from "express";
 import User from "../models/userSchema";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 const router = express.Router();
 
 interface RegisterBody {
 	username: string;
 	email: string;
 	password: string;
+}
+
+interface AuthResponse {
+	token: string;
+	expiresIn: number;
+	authState: {
+		_id: string;
+		username: string;
+	};
+	msg?: string;
 }
 // Routes stat with /auth
 router.post("/register", async (req, res) => {
@@ -19,10 +29,13 @@ router.post("/register", async (req, res) => {
 		});
 	}
 
+	console.log("🔎 checking if user already exists...");
+
 	const user = await User.findOne({ email: data.email });
 	if (user) {
-		return res.status(400).json({
-			msg: "🦄Ups. Something went wrong. This email is already in use.🦄",
+		console.log("👀 user already exists");
+		return res.status(500).json({
+			msg: "🦄Ups.  This email is already in use.🦄",
 		});
 	}
 
@@ -34,9 +47,14 @@ router.post("/register", async (req, res) => {
 		email: data.email,
 		password: hashedPassword,
 	});
+	console.log("🌟saving new user...");
 	await newUser.save();
+	console.log("🌟new user saved");
 
 	if (!process.env.JWT_SECRET) {
+		console.log("🔥JWT_SECRET not found");
+
+		await newUser.deleteOne();
 		return res.status(500).json({
 			msg: "Ups. Something went wrong. Please try again later.🐶",
 		});
@@ -44,9 +62,17 @@ router.post("/register", async (req, res) => {
 	// Check if fields are empty
 	const token = signToken(newUser._id.toString(), newUser.username);
 
-	res.status(200).json({
-		token: "Bearer " + token,
-	});
+	console.log(token);
+	const response: AuthResponse = {
+		token: token,
+		expiresIn: 3600,
+		authState: {
+			_id: newUser._id.toString(),
+			username: newUser.username,
+		},
+		msg: "🦄Registration successful🦄",
+	};
+	res.status(200).json(response);
 });
 
 interface LoginBody {
@@ -88,15 +114,23 @@ router.post("/login", async (req, res) => {
 	}
 	const token = signToken(userDoc._id.toString(), userDoc.username);
 
-	res.status(200).json({
-		token: "Bearer " + token,
-		msg: "Login successful",
-	});
+	const response: AuthResponse = {
+		token: token,
+		expiresIn: 3600,
+		authState: {
+			_id: userDoc._id.toString(),
+			username: userDoc.username,
+		},
+		msg: "🦄Login Successful🦄",
+	};
+	console.log(`🌟 ${data.username} logged in successfully`);
+
+	res.status(200).json(response);
 });
 
 const signToken = (id: string, username: string) => {
 	return jwt.sign({ id, username }, process.env.JWT_SECRET as string, {
-		expiresIn: "1h",
+		expiresIn: 3600,
 	});
 };
 

@@ -1,8 +1,11 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+
+var morgan = require("morgan");
+var dotenv = require("dotenv");
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes";
 import todoRoutes from "./routes/todoRoutes";
+
 dotenv.config();
 
 const app: Express = express();
@@ -15,6 +18,8 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
 	console.log("Connected successfully");
 });
+
+app.use(morgan("dev"));
 
 app.use(express.json());
 

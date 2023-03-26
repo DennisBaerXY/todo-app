@@ -15,8 +15,8 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
 		req.user = decoded as User;
 		next();
 	} catch (error) {
-		res.status(400).json({
-			msg: "Token is not valid",
+		res.status(401).json({
+			msg: "You need to be logged in",
 		});
 	}
 };
