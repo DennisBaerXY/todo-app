@@ -9,10 +9,11 @@ router.get("", checkAuth, async (req, res) => {
 	console.log("🔎 getting todos...");
 	const user = req.user!;
 	const todos = await Todo.find({ userId: user.id }, { userId: 0 });
+	const filterTodos = todos.filter((todo) => !todo.completed);
 
 	console.log("🔎 todos found");
 	res.status(200).json({
-		todos,
+		todos: filterTodos,
 	});
 });
 

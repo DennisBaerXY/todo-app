@@ -9,7 +9,7 @@ export default defineConfig({
 		// Uses a Proxy to target local backend
 		proxy: {
 			"/api": {
-				target: "http://localhost:5000",
+				target: "http://localhost:5001",
 				changeOrigin: true,
 				// remove /api
 				rewrite: (path) => path.replace(/^\/api/, ""),

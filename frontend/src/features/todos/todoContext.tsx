@@ -37,7 +37,7 @@ const TodoProvider = ({ children }: Props) => {
 		}
 		if (response.ok) {
 			const resData = (await response.json()) as ITodoRequest;
-
+			console.log(resData);
 			setTodos(resData.todos);
 
 			console.log(resData.todos);
