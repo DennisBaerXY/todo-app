@@ -9,9 +9,10 @@ import todoRoutes from "./routes/todoRoutes";
 dotenv.config();
 
 const app: Express = express();
-const PORT = process.env.PORT || 5000;
-
-mongoose.connect(process.env.MONGO_URI as string);
+const PORT = process.env.PORT || 8080;
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/todo";
+console.log("Mongo URI " + MONGO_URI);
+mongoose.connect(MONGO_URI);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));

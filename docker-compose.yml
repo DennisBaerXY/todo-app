@@ -1,0 +1,43 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+        VITE_APP_PORT: 3000
+        VITE_APP_API_URL: http://backend:8080
+
+    networks:
+      - todoapp
+ 
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/todoapp
+      JWT_SECRET: 3t6w9z$B&E)H@McQ
+      PORT: 8080
+
+    networks:
+      - todoapp
+
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - todoapp
+    command: mongod --bind_ip_all
+networks:
+  todoapp:
+    driver: bridge

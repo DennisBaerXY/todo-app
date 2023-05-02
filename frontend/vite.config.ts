@@ -1,17 +1,19 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
+import dotenv from "dotenv";
 
-// https://vitejs.dev/config/
+dotenv.config();
+
 export default defineConfig({
 	plugins: [react(), tsconfigPaths()],
 	server: {
-		// Uses a Proxy to target local backend
+		host: true, // bind to all network interfaces
+		port: parseInt(process.env.VITE_APP_PORT) || 3000,
 		proxy: {
 			"/api": {
-				target: "http://localhost:5001",
+				target: process.env.VITE_APP_BACKEND_URL || "http://backend:8080", // use environment variables or default value
 				changeOrigin: true,
-				// remove /api
 				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
 		},
