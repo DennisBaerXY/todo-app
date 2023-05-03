@@ -12,7 +12,7 @@ export default defineConfig({
 		port: parseInt(process.env.VITE_APP_PORT) || 3000,
 		proxy: {
 			"/api": {
-				target: process.env.VITE_APP_BACKEND_URL || "http://backend:8080", // use environment variables or default value
+				target: process.env.VITE_APP_API_URL || "http://backend:8080", // use environment variables or default value
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
