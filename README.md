@@ -62,6 +62,7 @@ docker-compose up --build
 
 This will start the frontend, backend and the database.
 The Database will start on port 27017, the backend on port 8080 and the frontend on port 3000.
+Tutorial used for nginx: https://linuxhint.com/docker-compose-load-balancing-and-scaling/
 
 ## Built With
 
@@ -70,6 +71,11 @@ The Database will start on port 27017, the backend on port 8080 and the frontend
 - [React](https://reactjs.org/)
 - [Node.js](https://nodejs.org/en/)
   
-- [Docker](https://www.docker.com/)
+- [Docker](https://www.docker.com/)   
+- [Nginx](https://www.nginx.com/)
+
+
+
+
 
 MERN Stack
