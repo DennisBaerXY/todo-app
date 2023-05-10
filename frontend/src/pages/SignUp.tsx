@@ -113,6 +113,7 @@ const SignUp = () => {
 							type="email"
 							name="email"
 							id="email"
+							autoComplete="email"
 							placeholder="John.dough@mail.com"
 							className="input input-bordered w-full   "
 						/>
@@ -124,6 +125,7 @@ const SignUp = () => {
 							type="text"
 							name="username"
 							id="username"
+							autoComplete="username"
 							placeholder="JohnDoughMan123"
 							className="input input-bordered "
 						/>
@@ -135,6 +137,7 @@ const SignUp = () => {
 							type="password"
 							name="password"
 							id="password"
+							autoComplete="new-password"
 							placeholder="********"
 							className="input input-bordered w-full mb-3  "
 						/>

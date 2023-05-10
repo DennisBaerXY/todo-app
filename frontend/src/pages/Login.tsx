@@ -87,6 +87,7 @@ const Login = () => {
 							name="username"
 							id="username"
 							placeholder="John"
+							autoComplete="username"
 							className="input input-bordered w-full  "
 						/>
 
@@ -97,6 +98,7 @@ const Login = () => {
 							type="password"
 							name="password"
 							id="password"
+							autoComplete="current-password"
 							placeholder="********"
 							className="input input-bordered w-full  mb-3 "
 						/>
