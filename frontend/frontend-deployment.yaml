@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-frontend
+spec:
+  selector:
+    matchLabels:
+      app: todo-app-frontend
+  template:
+    metadata:
+      labels:
+        app: todo-app-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: todo-app-frontend
+        ports:
+          - containerPort: 3000
+        env:
+          - name: VITE_APP_PORT
+            value: "3000"
+          - name: VITE_APP_API_URL
+            value:  http://nginx:8080
+        imagePullPolicy: IfNotPresent
+            
+       
