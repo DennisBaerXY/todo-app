@@ -13,11 +13,12 @@ type Props = {
 const TodoList = ({ todos }: Props) => {
 	const authHeader = useAuthHeader();
 	const [isLoading, setIsLoading] = useState(false);
+	const apiBasePath = import.meta.env.APIBASE_PATH || "http://backend-service";
 
 	const context = useTodoContext();
 	const deleteTodo = async (id: string) => {
 		setIsLoading(true);
-		const response = await fetch(`/api/todos/${id}`, {
+		const response = await fetch(`${apiBasePath}/todos/${id}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
@@ -33,7 +34,7 @@ const TodoList = ({ todos }: Props) => {
 	};
 	const toggleTodo = async (id: string) => {
 		setIsLoading(true);
-		const response = await fetch(`/api/todos/${id}/toggle`, {
+		const response = await fetch(`${apiBasePath}/todos/${id}/toggle`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",

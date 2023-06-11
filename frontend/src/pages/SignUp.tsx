@@ -47,12 +47,16 @@ const SignUp = () => {
 		const form = e.currentTarget;
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries());
+		const apiBasePath =
+			import.meta.env.APIBASE_PATH || "http://backend-service";
+		console.log(apiBasePath);
+		console.log(import.meta.env.APIBASE_PATH);
 
 		if (!validateFormData(data)) {
 			setLoading(false);
 			return;
 		}
-		const response = await fetch("/api/auth/register", {
+		const response = await fetch(apiBasePath + "/auth/register", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

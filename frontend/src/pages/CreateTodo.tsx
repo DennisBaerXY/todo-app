@@ -21,6 +21,7 @@ const CreateTodo = () => {
 	const dateRef = useRef<HTMLInputElement>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
+	const apiBasePath = import.meta.env.APIBASE_PATH || "http://backend-service";
 
 	const [toastList, setToastList] = useState<Toast[]>([]);
 	const [created, setCreated] = useState(false);
@@ -62,7 +63,7 @@ const CreateTodo = () => {
 			return;
 		}
 
-		const response = await fetch("/api/todos", {
+		const response = await fetch(apiBasePath + "/todos", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

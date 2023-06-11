@@ -6,6 +6,7 @@ const Login = () => {
 	const isAuthenticated = useIsAuthenticated();
 	const signIn = useSignIn();
 	const [error, setError] = useState("");
+	const apiBasePath = import.meta.env.APIBASE_PATH || "http://backend-service";
 	const navigate = useNavigate();
 
 	const [loading, setLoading] = useState(false);
@@ -17,13 +18,15 @@ const Login = () => {
 	async function login(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setLoading(true);
+		console.log(apiBasePath);
+		console.log(import.meta.env.APIBASE_PATH);
 
 		const form = e.currentTarget;
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries());
 		console.log(data);
 
-		const response = await fetch("/api/auth/login", {
+		const response = await fetch(apiBasePath + "/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

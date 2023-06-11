@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon --exec ts-node app/index.ts",
-    "build": "npx tsc && docker build -t backend-image ."
+    "build": "npx tsc &&  docker build --no-cache . -t todoapp-backend"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

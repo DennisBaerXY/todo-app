@@ -7,11 +7,30 @@ import authRoutes from "./routes/authRoutes";
 import todoRoutes from "./routes/todoRoutes";
 
 dotenv.config();
-
 const app: Express = express();
 const PORT = process.env.PORT || 8080;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/todo";
-console.log("Mongo URI " + MONGO_URI);
+const MONGO_URL =
+	process.env.MONGODB_SERVER + ":27017/todo-app"
+		? process.env.MONGODB_SERVER
+		: "localhost:27017/todo-app";
+if (!process.env.MONGODB_SERVER) {
+	console.error("Please define the MONGODB_SERVER environment variable");
+	process.exit(1);
+}
+
+let MONGO_URI = MONGO_URL;
+// Connect to MongoDB with password
+const mongoUser = process.env.MONGO_USERNAME;
+const mongoPassword = process.env.MONGO_PASSWORD;
+console.log("Mongo Authentication: " + mongoUser + " " + mongoPassword);
+// create a pretty print for all the mongodb related env variables
+const mongoAuth =
+	mongoUser && mongoPassword ? `${mongoUser}:${mongoPassword}@` : "";
+const MONGO_PORT = process.env.MONGO_PORT || 27017;
+const MONGO_DB = "todo-app";
+MONGO_URI = `mongodb://${mongoAuth}${MONGO_URI}`;
+console.log("Mongo Connection String " + MONGO_URI);
+
 mongoose.connect(MONGO_URI);
 
 const db = mongoose.connection;

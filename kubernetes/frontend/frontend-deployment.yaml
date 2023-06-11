@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: todoapp-frontend:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+
+        env:
+          - name: VITE_APP_PORT
+            value: "3000"
+          - name: APIBASE_PATH
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-config
+                key:  backend-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30009
+  type: LoadBalancer
