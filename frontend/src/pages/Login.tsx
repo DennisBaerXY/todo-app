@@ -6,7 +6,7 @@ const Login = () => {
 	const isAuthenticated = useIsAuthenticated();
 	const signIn = useSignIn();
 	const [error, setError] = useState("");
-	const apiBasePath = import.meta.env.APIBASE_PATH || "http://backend-service";
+
 	const navigate = useNavigate();
 
 	const [loading, setLoading] = useState(false);
@@ -18,41 +18,46 @@ const Login = () => {
 	async function login(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		setLoading(true);
-		console.log(apiBasePath);
-		console.log(import.meta.env.APIBASE_PATH);
 
 		const form = e.currentTarget;
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries());
 		console.log(data);
+		try {
+			const response = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
 
-		const response = await fetch(apiBasePath + "/auth/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		});
-		const resData = await response.json();
-
-		if (response.ok) {
-			console.log(resData);
-			if (
-				signIn({
-					token: resData.token,
-					tokenType: "Bearer",
-					expiresIn: resData.expiresIn / 60,
-					authState: resData.authState,
-				})
-			) {
-				console.log("login successful... redirecting to '/'");
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
 			}
-		}
 
-		if (!response.ok) {
-			setError(resData.msg);
-		}
+			const resData = await response.json();
 
+			if (response.ok) {
+				console.log(resData);
+				if (
+					signIn({
+						token: resData.token,
+						tokenType: "Bearer",
+						expiresIn: resData.expiresIn / 60,
+						authState: resData.authState,
+					})
+				) {
+					console.log("login successful... redirecting to '/'");
+				}
+			}
+
+			if (!response.ok) {
+				setError(resData.msg);
+			}
+		} catch (err) {
+			console.log(err);
+		}
 		setLoading(false);
 	}
 

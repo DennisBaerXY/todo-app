@@ -16,8 +16,6 @@ const TodoProvider = ({ children }: Props) => {
 	const [todos, setTodos] = useState<ITodo[]>([]);
 	const auth = useAuthUser();
 	const authHeader = useAuthHeader();
-	const apiBasePath = import.meta.env.APIBASE_PATH || "http://backend-service";
-
 	const isAuthenticated = auth();
 
 	const fetchAllTodos = async () => {
@@ -26,7 +24,7 @@ const TodoProvider = ({ children }: Props) => {
 			console.log("Not Authenticated");
 			return;
 		}
-		const response = await fetch(apiBasePath + "/todos", {
+		const response = await fetch("/api/todos", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

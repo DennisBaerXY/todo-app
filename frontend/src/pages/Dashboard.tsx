@@ -16,7 +16,6 @@ const Dashboard = () => {
 	const auth = useAuthUser();
 	const signOut = useSignOut();
 	const isAuthenticated = useIsAuthenticated();
-	const apiBasePath = import.meta.env.APIBASE_PATH || "http://backend-service";
 
 	if (!isAuthenticated) {
 		return <Navigate to="/login" />;
@@ -27,7 +26,7 @@ const Dashboard = () => {
 			console.log("Not Authenticated");
 			return;
 		}
-		const response = await fetch(apiBasePath + "/todos", {
+		const response = await fetch("/api/todos", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

@@ -16,29 +16,19 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: todoapp-frontend:latest
-        imagePullPolicy: Never
+        image: dennisbaer/todoapp-frontend:latest
         ports:
-        - containerPort: 3000
-
-        env:
-          - name: VITE_APP_PORT
-            value: "3000"
-          - name: APIBASE_PATH
-            valueFrom:
-              configMapKeyRef:
-                name: frontend-config
-                key:  backend-url
+          - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
 spec:
+  type: ClusterIP
   selector:
     app: frontend
   ports:
-  - port: 3000
-    targetPort: 3000
-    nodePort: 30009
-  type: LoadBalancer
+  - port: 80
+    targetPort: 80
+
