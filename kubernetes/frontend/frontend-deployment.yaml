@@ -17,6 +17,7 @@ spec:
       containers:
       - name: frontend
         image: dennisbaer/todoapp-frontend:latest
+        imagePullPolicy: Always
         ports:
           - containerPort: 80
 ---
