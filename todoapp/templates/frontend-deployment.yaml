@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: {{ .Release.Name }}-frontend-deployment
   labels:
     app: frontend
 spec:
