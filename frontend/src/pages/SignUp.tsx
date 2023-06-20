@@ -48,6 +48,8 @@ const SignUp = () => {
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries());
 
+		console.log(import.meta.env.APIBASE_PATH);
+
 		if (!validateFormData(data)) {
 			setLoading(false);
 			return;

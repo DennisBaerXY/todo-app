@@ -16,10 +16,10 @@ const TodoProvider = ({ children }: Props) => {
 	const [todos, setTodos] = useState<ITodo[]>([]);
 	const auth = useAuthUser();
 	const authHeader = useAuthHeader();
-
 	const isAuthenticated = auth();
 
 	const fetchAllTodos = async () => {
+		console.log("Fetching all todos");
 		if (!isAuthenticated) {
 			console.log("Not Authenticated");
 			return;
@@ -42,6 +42,8 @@ const TodoProvider = ({ children }: Props) => {
 
 			console.log(resData.todos);
 		}
+
+		console.log(response);
 	};
 
 	useEffect(() => {
