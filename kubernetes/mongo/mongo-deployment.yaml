@@ -41,7 +41,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: 100Mi
 ---
 apiVersion: v1
 kind: Service
@@ -54,3 +54,4 @@ spec:
   ports:
   - port: 27017
     targetPort: 27017
+
